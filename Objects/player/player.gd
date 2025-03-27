@@ -19,17 +19,20 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if is_on_floor():
+		print("can_jump: true")
 		can_jump = true 
 	else: # When on floor, dont process gravity.
+		print("can_jump: false")
 		velocity += get_gravity() * delta
 	
 	# Jumping
 	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_up") and can_jump:
 		velocity.y = -mv_INITIAL_JUMP_HEIGHT
+		print("jumping")
 	if velocity.y < 0:
 		if Input.is_action_pressed("ui_accept") or Input.is_action_pressed("ui_up") and can_jump:
-			print_debug("aaa ")
 			velocity.y -= mv_ADDITIONAL_JUMP_HEIGHT * delta
+			print("additional jump active")
 		if Input.is_action_just_released("ui_accept") or Input.is_action_just_released("ui_up"):
 			can_jump = false
 	
