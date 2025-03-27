@@ -23,6 +23,7 @@ func _physics_process(delta: float) -> void:
 		can_jump = true 
 	else: # When on floor, dont process gravity.
 		print("can_jump: false")
+		can_jump = false 
 		velocity += get_gravity() * delta
 	
 	# Jumping
@@ -30,12 +31,10 @@ func _physics_process(delta: float) -> void:
 		velocity.y = -mv_INITIAL_JUMP_HEIGHT
 		print("jumping")
 	if velocity.y < 0:
-		if Input.is_action_pressed("ui_accept") or Input.is_action_pressed("ui_up") and can_jump:
+		if Input.is_action_pressed("ui_accept") or Input.is_action_pressed("ui_up") and not is_on_floor(): # i have no idea why the fuck it works but it does (fixes a bug when you can do the additional jump force in the air after walking off a platform without jumping)
 			velocity.y -= mv_ADDITIONAL_JUMP_HEIGHT * delta
 			print("additional jump active")
-		if Input.is_action_just_released("ui_accept") or Input.is_action_just_released("ui_up"):
-			can_jump = false
-	
+
 	# Horizontal Movement
 	var direction = Input.get_axis("ui_left","ui_right")
 	if direction:

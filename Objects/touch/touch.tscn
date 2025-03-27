@@ -31,12 +31,12 @@ scale = Vector2(0.65, 0.65)
 texture = ExtResource("2_03qga")
 
 [node name="bg2" type="Sprite2D" parent="."]
-position = Vector2(76, 236)
+position = Vector2(72, 236)
 scale = Vector2(3, 24)
 texture = SubResource("GradientTexture1D_03qga")
 
 [node name="right" type="TouchScreenButton" parent="."]
-position = Vector2(64, 224)
+position = Vector2(60, 224)
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
 action = "ui_right"
