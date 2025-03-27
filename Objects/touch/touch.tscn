@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8ktiqr5n2mnh"]
+
+[ext_resource type="Texture2D" uid="uid://b3yc5olqr5eca" path="res://Objects/touch/box.png" id="1_3f3hq"]
+[ext_resource type="Texture2D" uid="uid://2afr3ibivcnm" path="res://Objects/touch/arrow.png" id="2_03qga"]
+
+[sub_resource type="Gradient" id="Gradient_3f3hq"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 0.631373)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_03qga"]
+gradient = SubResource("Gradient_3f3hq")
+width = 8
+
+[node name="touch" type="Node2D"]
+
+[node name="bg" type="Sprite2D" parent="."]
+position = Vector2(28, 236)
+scale = Vector2(3, 24)
+texture = SubResource("GradientTexture1D_03qga")
+
+[node name="left" type="TouchScreenButton" parent="."]
+position = Vector2(16, 224)
+scale = Vector2(3, 3)
+texture_normal = ExtResource("1_3f3hq")
+action = "ui_left"
+
+[node name="Sprite2D" type="Sprite2D" parent="left"]
+position = Vector2(4, 4)
+rotation = 4.71239
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_03qga")
+
+[node name="bg2" type="Sprite2D" parent="."]
+position = Vector2(76, 236)
+scale = Vector2(3, 24)
+texture = SubResource("GradientTexture1D_03qga")
+
+[node name="right" type="TouchScreenButton" parent="."]
+position = Vector2(64, 224)
+scale = Vector2(3, 3)
+texture_normal = ExtResource("1_3f3hq")
+action = "ui_right"
+
+[node name="Sprite2D" type="Sprite2D" parent="right"]
+position = Vector2(4, 4)
+rotation = 1.5708
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_03qga")
+
+[node name="bg3" type="Sprite2D" parent="."]
+position = Vector2(432, 236)
+scale = Vector2(3, 24)
+texture = SubResource("GradientTexture1D_03qga")
+
+[node name="jump" type="TouchScreenButton" parent="."]
+position = Vector2(420, 224)
+scale = Vector2(3, 3)
+texture_normal = ExtResource("1_3f3hq")
+action = "ui_up"
+
+[node name="Sprite2D" type="Sprite2D" parent="jump"]
+position = Vector2(4, 4)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_03qga")
