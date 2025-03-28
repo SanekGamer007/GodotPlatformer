@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=4 uid="uid://byushar64hmya"]
+[gd_scene load_steps=9 format=4 uid="uid://byushar64hmya"]
 
 [ext_resource type="Script" uid="uid://b6p56ng84e3gq" path="res://Maps/test_map/test_map.gd" id="1_8i6cp"]
 [ext_resource type="PackedScene" uid="uid://c3jsmrfav6jir" path="res://Objects/player/player.tscn" id="1_60blc"]
 [ext_resource type="PackedScene" uid="uid://yktuwsa8872y" path="res://Tiles/test_tilemap/test.tscn" id="2_oqus1"]
 [ext_resource type="PackedScene" uid="uid://c8ktiqr5n2mnh" path="res://Objects/touch/touch.tscn" id="3_nrpge"]
-[ext_resource type="Script" uid="uid://covyhte5crjrx" path="res://Objects/touch/touch.gd" id="4_k6yxw"]
 [ext_resource type="PackedScene" uid="uid://cx1ij0r6e4lhl" path="res://Tiles/grass_tileset/grass.tscn" id="6_tl602"]
 [ext_resource type="Texture2D" uid="uid://5yppxo7j1yhn" path="res://Maps/test_map/bg/test_bg_parallax0.png" id="7_2m5dr"]
 [ext_resource type="Texture2D" uid="uid://co2m5i3nhgs2h" path="res://Maps/test_map/bg/test_bg_parallax1.png" id="8_11nxo"]
@@ -14,33 +13,35 @@
 script = ExtResource("1_8i6cp")
 metadata/_edit_vertical_guides_ = [-117.0, -210.0]
 
-[node name="Layer0" type="Parallax2D" parent="."]
+[node name="bg" type="Node2D" parent="."]
+
+[node name="Layer0" type="Parallax2D" parent="bg"]
 repeat_size = Vector2(480, 270)
 
-[node name="Sprite2D" type="Sprite2D" parent="Layer0"]
+[node name="Sprite2D" type="Sprite2D" parent="bg/Layer0"]
 texture_repeat = 2
 texture = ExtResource("7_2m5dr")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 480, 270)
 
-[node name="Layer1" type="Parallax2D" parent="."]
+[node name="Layer1" type="Parallax2D" parent="bg"]
 scroll_scale = Vector2(0, 0)
 repeat_size = Vector2(480, 270)
 autoscroll = Vector2(32, 32)
 repeat_times = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="Layer1"]
+[node name="Sprite2D" type="Sprite2D" parent="bg/Layer1"]
 texture = ExtResource("8_11nxo")
 centered = false
 
-[node name="Layer2" type="Parallax2D" parent="."]
+[node name="Layer2" type="Parallax2D" parent="bg"]
 scroll_scale = Vector2(0.6, 0.4)
 repeat_size = Vector2(480, 0)
 repeat_times = 2
 limit_end = Vector2(1e+07, 270)
 
-[node name="Sprite2D" type="Sprite2D" parent="Layer2"]
+[node name="Sprite2D" type="Sprite2D" parent="bg/Layer2"]
 self_modulate = Color(1, 1, 1, 0.509804)
 texture = ExtResource("9_ec4jh")
 centered = false
@@ -55,18 +56,14 @@ tile_map_data = PackedByteArray("AAD+/w4AAAACAAAAAAD9/w4AAAACAAAAAAD8/w4AAAACAAA
 
 [node name="player" parent="." instance=ExtResource("1_60blc")]
 unique_name_in_owner = true
-physics_interpolation_mode = 1
+physics_interpolation_mode = 0
 position = Vector2(8, 8)
 
 [node name="PlayerCam" type="Camera2D" parent="player"]
 position_smoothing_enabled = true
-position_smoothing_speed = 15.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
-drag_left_margin = 0.1
 drag_right_margin = 0.1
 editor_draw_drag_margin = true
 
 [node name="touch" parent="." instance=ExtResource("3_nrpge")]
-z_index = 1
-script = ExtResource("4_k6yxw")
