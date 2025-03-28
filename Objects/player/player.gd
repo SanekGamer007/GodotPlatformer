@@ -17,7 +17,18 @@ var can_jump: bool ## Defines if the player can jump.
 func _ready() -> void:
 	pass
 
+func _process(_delta: float) -> void:
+	pass
+
 func _physics_process(delta: float) -> void:
+	#Slope detection
+	var slopedata: TileData = GetFloorData(get_node("../grass"))
+	if slopedata:
+		if slopedata.get_custom_data("slope") == true:
+			self.floor_snap_length = 3.0
+		else:
+			self.floor_snap_length = 0.5
+	
 	if is_on_floor():
 		print("can_jump: true")
 		can_jump = true 
@@ -51,3 +62,8 @@ func _physics_process(delta: float) -> void:
 func reset():
 	position = Vector2.ZERO
 	velocity = Vector2.ZERO
+
+func GetFloorData(tilemap: Node):
+	var pos = tilemap.local_to_map(tilemap.to_local(global_position + Vector2(0, 14)))
+	var result: TileData = tilemap.get_cell_tile_data(pos)
+	return result
