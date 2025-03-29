@@ -92,6 +92,10 @@ func kill():
 	self.set_physics_process(false)
 	if get_node("../RespawnText"):
 		get_node("../RespawnText").visible = true
+	else:
+		await get_tree().create_timer(3.0).timeout
+		reset()
+		return
 	await get_tree().create_timer(3.0).timeout
 	get_node("../RespawnText").visible = false
 	reset()
