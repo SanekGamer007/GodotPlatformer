@@ -151,6 +151,8 @@ physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.676319, 0.114885, 0.368254, 1)
+custom_data_layer_0/name = "spike"
+custom_data_layer_0/type = 1
 sources/0 = SubResource("TileSetAtlasSource_62cxi")
 
 [node name="test" type="TileMapLayer"]
