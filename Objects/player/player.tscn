@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3jsmrfav6jir"]
+[gd_scene load_steps=10 format=3 uid="uid://c3jsmrfav6jir"]
 
 [ext_resource type="Script" uid="uid://c3ho4msngx4k4" path="res://Objects/player/player.gd" id="1_ym8jc"]
 
@@ -12,6 +12,37 @@ colors = PackedColorArray(1, 0, 0, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_66vr1"]
 gradient = SubResource("Gradient_ym8jc")
 width = 14
+
+[sub_resource type="Gradient" id="Gradient_66vr1"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cw3ca"]
+gradient = SubResource("Gradient_66vr1")
+width = 7
+height = 7
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Curve" id="Curve_0dui8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3o3u1"]
+curve = SubResource("Curve_0dui8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t4qcv"]
+particle_flag_disable_z = true
+angular_velocity_min = 20.0
+angular_velocity_max = 20.0
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 9.49949e-08
+radial_velocity_min = -2.23517e-05
+radial_velocity_max = 120.0
+gravity = Vector3(0, 98, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = -2.23517e-06
+alpha_curve = SubResource("CurveTexture_3o3u1")
+collision_use_scale = true
 
 [node name="player" type="CharacterBody2D"]
 physics_interpolation_mode = 1
@@ -34,5 +65,16 @@ collision_mask = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("RectangleShape2D_66vr1")
+
+[node name="DeathEffect" type="GPUParticles2D" parent="."]
+visible = false
+emitting = false
+amount = 4
+texture = SubResource("GradientTexture2D_cw3ca")
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_t4qcv")
 
 [connection signal="body_shape_entered" from="Hurtbox" to="." method="_on_hurtbox_body_shape_entered"]

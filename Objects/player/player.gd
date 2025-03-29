@@ -75,6 +75,7 @@ func reset():
 			await get_tree().physics_frame
 		get_node("PlayerCam").position_smoothing_enabled = true
 	self.visible = true
+	get_node("Sprite2D").visible = true
 	self.set_physics_process(true)
 	self.set_process(true)
 
@@ -88,14 +89,13 @@ func _on_hurtbox_body_shape_entered(_body_rid: RID, _body: Node2D, _body_shape_i
 	kill()
 	
 func kill():
-	self.visible = false
+	get_node("Sprite2D").visible = false
+	get_node("DeathEffect").visible = true
+	get_node("DeathEffect").emitting = true
 	self.set_physics_process(false)
 	if get_node("../RespawnText"):
 		get_node("../RespawnText").visible = true
-	else:
-		await get_tree().create_timer(3.0).timeout
-		reset()
-		return
 	await get_tree().create_timer(3.0).timeout
-	get_node("../RespawnText").visible = false
+	if get_node("../RespawnText"):
+		get_node("../RespawnText").visible = false
 	reset()
