@@ -29,12 +29,7 @@ func _physics_process(delta: float) -> void:
 			self.floor_snap_length = 3.0
 		else:
 			self.floor_snap_length = 0.5
-	
-	if isalive == false:
-		self.floor_snap_length = 0.5
-		can_jump = false
-		return
-	
+
 	if is_on_floor():
 		print("can_jump: true")
 		can_jump = true 
@@ -78,6 +73,7 @@ func reset():
 	get_node("Sprite2D").visible = true
 	self.set_physics_process(true)
 	self.set_process(true)
+	isalive = true
 
 func GetFloorData(tilemap: Node):
 	var pos = tilemap.local_to_map(tilemap.to_local(global_position + Vector2(0, 14)))
@@ -89,6 +85,7 @@ func _on_hurtbox_body_shape_entered(_body_rid: RID, _body: Node2D, _body_shape_i
 	kill()
 	
 func kill():
+	isalive = false
 	get_node("Sprite2D").visible = false
 	get_node("DeathEffect").visible = true
 	get_node("DeathEffect").emitting = true

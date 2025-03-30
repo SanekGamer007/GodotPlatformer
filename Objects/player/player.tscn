@@ -23,25 +23,29 @@ width = 7
 height = 7
 fill_to = Vector2(0, 0)
 
-[sub_resource type="Curve" id="Curve_0dui8"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.729473, 1), -0.21555, -3.69648, 0, 1, Vector2(1, 0), 0.0, 0.0, 0, 0]
+[sub_resource type="Curve" id="Curve_66vr1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.804535, 1), -0.00468943, -0.00468943, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_3o3u1"]
-curve = SubResource("Curve_0dui8")
+[sub_resource type="CurveTexture" id="CurveTexture_cw3ca"]
+curve = SubResource("Curve_66vr1")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t4qcv"]
 particle_flag_disable_z = true
-angular_velocity_min = 20.0
-angular_velocity_max = 20.0
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = -1.60933e-05
 orbit_velocity_min = 9.49949e-08
 orbit_velocity_max = 9.49949e-08
-radial_velocity_min = -2.23517e-05
+radial_velocity_min = 60.0
 radial_velocity_max = 120.0
-gravity = Vector3(0, 98, 0)
+gravity = Vector3(0, 58, 0)
 linear_accel_min = -2.23517e-06
 linear_accel_max = -2.23517e-06
-alpha_curve = SubResource("CurveTexture_3o3u1")
+radial_accel_min = -2.23517e-06
+radial_accel_max = -2.23517e-06
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = -2.23517e-06
+scale_curve = SubResource("CurveTexture_cw3ca")
 sub_emitter_mode = 1
 sub_emitter_frequency = 24.0
 
@@ -108,7 +112,7 @@ collision_mask = 2
 shape = SubResource("RectangleShape2D_66vr1")
 
 [node name="DeathEffect" type="GPUParticles2D" parent="."]
-visible = false
+physics_interpolation_mode = 1
 emitting = false
 amount = 4
 sub_emitter = NodePath("secondparticles")
@@ -117,9 +121,11 @@ lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
+trail_section_subdivisions = 16
 process_material = SubResource("ParticleProcessMaterial_t4qcv")
 
 [node name="secondparticles" type="GPUParticles2D" parent="DeathEffect"]
+emitting = false
 amount = 256
 texture = SubResource("GradientTexture2D_0dui8")
 lifetime = 0.7
