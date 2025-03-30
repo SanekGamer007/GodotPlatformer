@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c3jsmrfav6jir"]
+[gd_scene load_steps=17 format=3 uid="uid://c3jsmrfav6jir"]
 
 [ext_resource type="Script" uid="uid://c3ho4msngx4k4" path="res://Objects/player/player.gd" id="1_ym8jc"]
 
@@ -24,8 +24,8 @@ height = 7
 fill_to = Vector2(0, 0)
 
 [sub_resource type="Curve" id="Curve_0dui8"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.729473, 1), -0.21555, -3.69648, 0, 1, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_3o3u1"]
 curve = SubResource("Curve_0dui8")
@@ -42,7 +42,48 @@ gravity = Vector3(0, 98, 0)
 linear_accel_min = -2.23517e-06
 linear_accel_max = -2.23517e-06
 alpha_curve = SubResource("CurveTexture_3o3u1")
-collision_use_scale = true
+sub_emitter_mode = 1
+sub_emitter_frequency = 24.0
+
+[sub_resource type="Gradient" id="Gradient_cw3ca"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0dui8"]
+gradient = SubResource("Gradient_cw3ca")
+width = 3
+height = 3
+fill_to = Vector2(0, 0)
+
+[sub_resource type="Curve" id="Curve_3o3u1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.79546, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_t4qcv"]
+curve = SubResource("Curve_3o3u1")
+
+[sub_resource type="Curve" id="Curve_ym8jc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.53048, 1), -0.157131, -0.157131, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_66vr1"]
+curve = SubResource("Curve_ym8jc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4kjos"]
+particle_flag_disable_z = true
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = -2.23517e-06
+radial_accel_min = -2.23517e-06
+radial_accel_max = -2.23517e-06
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = -2.23517e-06
+scale_curve = SubResource("CurveTexture_66vr1")
+alpha_curve = SubResource("CurveTexture_t4qcv")
 
 [node name="player" type="CharacterBody2D"]
 physics_interpolation_mode = 1
@@ -70,11 +111,18 @@ shape = SubResource("RectangleShape2D_66vr1")
 visible = false
 emitting = false
 amount = 4
+sub_emitter = NodePath("secondparticles")
 texture = SubResource("GradientTexture2D_cw3ca")
 lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_t4qcv")
+
+[node name="secondparticles" type="GPUParticles2D" parent="DeathEffect"]
+amount = 256
+texture = SubResource("GradientTexture2D_0dui8")
+lifetime = 0.7
+process_material = SubResource("ParticleProcessMaterial_4kjos")
 
 [connection signal="body_shape_entered" from="Hurtbox" to="." method="_on_hurtbox_body_shape_entered"]
