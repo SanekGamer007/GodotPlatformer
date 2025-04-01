@@ -8,11 +8,13 @@ extends CharacterBody2D
 @export var mv_INITIAL_JUMP_HEIGHT: int = 120 ## Lowest Jump force.
 @export var mv_ADDITIONAL_JUMP_HEIGHT: int = 480 ## Highest Jump force.
 @export var mv_CELERATION_STEPS: int = 12 ## How much steps does it require for the player to come to stop / to full speed.
-@export var mv_DASHSPEED: int = 120 ## WIP
-@export var mv_SPEED_REDUCTION_RATE: int = 4 ## WIP
+@export var mv_DASHSPEED: Vector2 = Vector2(180, 220) ## WIP
+@export var mv_SPEED_REDUCTION_RATE: int = 16 ## WIP
+@export var mv_SPEED_REDUCTION_RATE_AIR: int = 4 ## WIP
 var mv_ACCELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Acceleration.
 var mv_DECELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Deceleration.
 var isalive: bool = true
+var candash: bool = true
 
 var can_jump: bool ## Defines if the player can jump.
 
@@ -35,7 +37,7 @@ func _physics_process(delta: float) -> void:
 
 	if is_on_floor():
 		#print("can_jump: true")
-		can_jump = true 
+		can_jump = true
 	else: # When on floor, dont process gravity.
 		#print("can_jump: false")
 		can_jump = false 
@@ -58,8 +60,10 @@ func _physics_process(delta: float) -> void:
 		#velocity.x = clamp(velocity.x + mv_ACCELERATION * direction, -mv_MAX_SPEED, mv_MAX_SPEED)
 		if not abs(velocity.x) > mv_MAX_SPEED: 
 			velocity.x = velocity.x + mv_ACCELERATION * direction # if below max speed add more velocity
+		elif is_on_floor():
+			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE) * -1) #if above max speed start decreasing velocity
 		else:
-			velocity.x = velocity.x + ((sign(velocity.x) * 4) * -1) #if above max speed start decreasing velocity
+			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE_AIR) * -1) #if above max speed start decreasing velocity
 	else:
 		#velocity.x -= sign(velocity.x) * mv_DECELERATION
 		velocity.x -= mv_DECELERATION * sign(velocity.x)
@@ -67,11 +71,12 @@ func _physics_process(delta: float) -> void:
 			velocity.x = 0
 	#print_debug("DIRECTION: ", direction, " ", "VELOCITY: ", velocity.x)
 	velocity.y = clamp(velocity.y, -mv_MAX_VERTICAL_SPEED, mv_MAX_VERTICAL_SPEED)
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_just_pressed("dash") and candash:
 		var dashdirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		velocity = velocity + (mv_DASHSPEED * dashdirection)
 		print(dashdirection)
-		
+		get_node("DashTimer").start(0.5)
+		candash = false
 	move_and_slide()
 	
 func reset():
@@ -85,6 +90,7 @@ func reset():
 		get_node("PlayerCam").position_smoothing_enabled = true
 	self.visible = true
 	get_node("Sprite2D").visible = true
+	get_node("Trail").visible = true
 	self.set_physics_process(true)
 	self.set_process(true)
 	isalive = true
@@ -103,6 +109,7 @@ func kill():
 	get_node("Sprite2D").visible = false
 	get_node("DeathEffect").visible = true
 	get_node("DeathEffect").emitting = true
+	get_node("Trail").visible = false
 	self.set_physics_process(false)
 	if get_node("../RespawnText"):
 		get_node("../RespawnText").visible = true
@@ -110,3 +117,8 @@ func kill():
 	if get_node("../RespawnText"):
 		get_node("../RespawnText").visible = false
 	reset()
+
+
+func _on_dash_timer_timeout() -> void:
+	candash = true
+	print("a")
