@@ -14,14 +14,15 @@ width = 8
 [node name="touch" type="CanvasLayer"]
 
 [node name="bg" type="Sprite2D" parent="."]
-position = Vector2(28, 236)
+position = Vector2(28, 233)
 scale = Vector2(3, 24)
 texture = SubResource("GradientTexture1D_03qga")
 
 [node name="left" type="TouchScreenButton" parent="."]
-position = Vector2(16, 224)
+position = Vector2(16, 221)
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
+passby_press = true
 action = "ui_left"
 
 [node name="Sprite2D" type="Sprite2D" parent="left"]
@@ -31,14 +32,15 @@ scale = Vector2(0.65, 0.65)
 texture = ExtResource("2_03qga")
 
 [node name="bg2" type="Sprite2D" parent="."]
-position = Vector2(72, 236)
+position = Vector2(72, 233)
 scale = Vector2(3, 24)
 texture = SubResource("GradientTexture1D_03qga")
 
 [node name="right" type="TouchScreenButton" parent="."]
-position = Vector2(60, 224)
+position = Vector2(60, 221)
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
+passby_press = true
 action = "ui_right"
 
 [node name="Sprite2D" type="Sprite2D" parent="right"]
@@ -52,13 +54,52 @@ position = Vector2(432, 236)
 scale = Vector2(3, 24)
 texture = SubResource("GradientTexture1D_03qga")
 
-[node name="jump" type="TouchScreenButton" parent="."]
-position = Vector2(420, 224)
+[node name="up" type="TouchScreenButton" parent="."]
+position = Vector2(38, 218)
+rotation = -1.5708
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
 action = "ui_up"
 
+[node name="Sprite2D" type="Sprite2D" parent="up"]
+position = Vector2(4, 4)
+rotation = 1.5708
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_03qga")
+
+[node name="down" type="TouchScreenButton" parent="."]
+position = Vector2(62, 248)
+rotation = 1.5708
+scale = Vector2(3, 3)
+texture_normal = ExtResource("1_3f3hq")
+action = "ui_down"
+
+[node name="Sprite2D" type="Sprite2D" parent="down"]
+position = Vector2(4, 4)
+rotation = 1.5708
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_03qga")
+
+[node name="jump" type="TouchScreenButton" parent="."]
+position = Vector2(420, 224)
+scale = Vector2(3, 3)
+texture_normal = ExtResource("1_3f3hq")
+action = "ui_accept"
+
 [node name="Sprite2D" type="Sprite2D" parent="jump"]
 position = Vector2(4, 4)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_03qga")
+
+[node name="dash" type="TouchScreenButton" parent="."]
+position = Vector2(380, 224)
+scale = Vector2(3, 3)
+texture_normal = ExtResource("1_3f3hq")
+action = "dash"
+
+[node name="Sprite2D" type="Sprite2D" parent="dash"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(4, 4)
+rotation = 0.785398
 scale = Vector2(0.65, 0.65)
 texture = ExtResource("2_03qga")

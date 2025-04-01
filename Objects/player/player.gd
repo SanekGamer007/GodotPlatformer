@@ -8,6 +8,8 @@ extends CharacterBody2D
 @export var mv_INITIAL_JUMP_HEIGHT: int = 120 ## Lowest Jump force.
 @export var mv_ADDITIONAL_JUMP_HEIGHT: int = 480 ## Highest Jump force.
 @export var mv_CELERATION_STEPS: int = 12 ## How much steps does it require for the player to come to stop / to full speed.
+@export var mv_DASHSPEED: int = 120 ## WIP
+@export var mv_SPEED_REDUCTION_RATE: int = 4 ## WIP
 var mv_ACCELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Acceleration.
 var mv_DECELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Deceleration.
 var isalive: bool = true
@@ -16,6 +18,7 @@ var can_jump: bool ## Defines if the player can jump.
 
 
 func _ready() -> void:
+	#get_node("../touch/Joystick").connect()
 	pass
 
 func _process(_delta: float) -> void:
@@ -31,26 +34,32 @@ func _physics_process(delta: float) -> void:
 			self.floor_snap_length = 0.5
 
 	if is_on_floor():
-		print("can_jump: true")
+		#print("can_jump: true")
 		can_jump = true 
 	else: # When on floor, dont process gravity.
-		print("can_jump: false")
+		#print("can_jump: false")
 		can_jump = false 
 		velocity += get_gravity() * delta
 	
 	# Jumping
-	if Input.is_action_just_pressed("ui_accept") or Input.is_action_just_pressed("ui_up") and can_jump:
+	if Input.is_action_just_pressed("ui_accept") and can_jump:
 		velocity.y = -mv_INITIAL_JUMP_HEIGHT
 		print("jumping")
 	if velocity.y < 0:
-		if Input.is_action_pressed("ui_accept") or Input.is_action_pressed("ui_up") and not is_on_floor(): # i have no idea why the fuck it works but it does (fixes a bug when you can do the additional jump force in the air after walking off a platform without jumping)
+		if Input.is_action_pressed("ui_accept") and not is_on_floor(): # i have no idea why the fuck it works but it does (fixes a bug when you can do the additional jump force in the air after walking off a platform without jumping)
 			velocity.y -= mv_ADDITIONAL_JUMP_HEIGHT * delta
 			print("additional jump active")
 
 	# Horizontal Movement
-	var direction = Input.get_axis("ui_left","ui_right")
+	#var direction = Input.get_axis("ui_left","ui_right")
+	var direction = Input.get_axis("ui_left", "ui_right")
+	#var direction = get_node("../touch/Joystick")._direction_vector
 	if direction:
-		velocity.x = clamp(velocity.x + mv_ACCELERATION * direction, -mv_MAX_SPEED, mv_MAX_SPEED)
+		#velocity.x = clamp(velocity.x + mv_ACCELERATION * direction, -mv_MAX_SPEED, mv_MAX_SPEED)
+		if not abs(velocity.x) > mv_MAX_SPEED: 
+			velocity.x = velocity.x + mv_ACCELERATION * direction # if below max speed add more velocity
+		else:
+			velocity.x = velocity.x + ((sign(velocity.x) * 4) * -1) #if above max speed start decreasing velocity
 	else:
 		#velocity.x -= sign(velocity.x) * mv_DECELERATION
 		velocity.x -= mv_DECELERATION * sign(velocity.x)
@@ -58,6 +67,11 @@ func _physics_process(delta: float) -> void:
 			velocity.x = 0
 	#print_debug("DIRECTION: ", direction, " ", "VELOCITY: ", velocity.x)
 	velocity.y = clamp(velocity.y, -mv_MAX_VERTICAL_SPEED, mv_MAX_VERTICAL_SPEED)
+	if Input.is_action_just_pressed("dash"):
+		var dashdirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+		velocity = velocity + (mv_DASHSPEED * dashdirection)
+		print(dashdirection)
+		
 	move_and_slide()
 	
 func reset():
