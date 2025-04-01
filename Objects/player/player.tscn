@@ -132,7 +132,7 @@ lifetime = 0.7
 process_material = SubResource("ParticleProcessMaterial_4kjos")
 
 [node name="DashTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.3
 one_shot = true
 
 [connection signal="body_shape_entered" from="Hurtbox" to="." method="_on_hurtbox_body_shape_entered"]

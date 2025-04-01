@@ -14,8 +14,8 @@ extends CharacterBody2D
 var mv_ACCELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Acceleration.
 var mv_DECELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Deceleration.
 var isalive: bool = true
-var candash: bool = true
-
+var can_dash: bool = true
+var was_on_floor: bool
 var can_jump: bool ## Defines if the player can jump.
 
 
@@ -27,6 +27,7 @@ func _process(_delta: float) -> void:
 	pass
 	
 func _physics_process(delta: float) -> void:
+	print(is_on_floor( ), was_on_floor)
 	#Slope detection
 	var slopedata: TileData = GetFloorData(get_node("../Level/grass"))
 	if slopedata:
@@ -43,6 +44,8 @@ func _physics_process(delta: float) -> void:
 		can_jump = false 
 		velocity += get_gravity() * delta
 	
+	if is_on_floor() && !was_on_floor:
+		can_dash = true
 	# Jumping
 	if Input.is_action_just_pressed("ui_accept") and can_jump:
 		velocity.y = -mv_INITIAL_JUMP_HEIGHT
@@ -71,12 +74,14 @@ func _physics_process(delta: float) -> void:
 			velocity.x = 0
 	#print_debug("DIRECTION: ", direction, " ", "VELOCITY: ", velocity.x)
 	velocity.y = clamp(velocity.y, -mv_MAX_VERTICAL_SPEED, mv_MAX_VERTICAL_SPEED)
-	if Input.is_action_just_pressed("dash") and candash:
+	if Input.is_action_just_pressed("dash") and can_dash:
 		var dashdirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		velocity = velocity + (mv_DASHSPEED * dashdirection)
 		print(dashdirection)
-		get_node("DashTimer").start(0.5)
-		candash = false
+		can_dash = false
+		if is_on_floor():
+			get_node("DashTimer").start(0.5)
+			was_on_floor = is_on_floor()
 	move_and_slide()
 	
 func reset():
@@ -90,7 +95,6 @@ func reset():
 		get_node("PlayerCam").position_smoothing_enabled = true
 	self.visible = true
 	get_node("Sprite2D").visible = true
-	get_node("Trail").visible = true
 	self.set_physics_process(true)
 	self.set_process(true)
 	isalive = true
@@ -109,7 +113,6 @@ func kill():
 	get_node("Sprite2D").visible = false
 	get_node("DeathEffect").visible = true
 	get_node("DeathEffect").emitting = true
-	get_node("Trail").visible = false
 	self.set_physics_process(false)
 	if get_node("../RespawnText"):
 		get_node("../RespawnText").visible = true
@@ -120,5 +123,5 @@ func kill():
 
 
 func _on_dash_timer_timeout() -> void:
-	candash = true
+	can_dash = true
 	print("a")
