@@ -59,6 +59,7 @@ position = Vector2(38, 218)
 rotation = -1.5708
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
+passby_press = true
 action = "ui_up"
 
 [node name="Sprite2D" type="Sprite2D" parent="up"]
@@ -72,6 +73,7 @@ position = Vector2(62, 248)
 rotation = 1.5708
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
+passby_press = true
 action = "ui_down"
 
 [node name="Sprite2D" type="Sprite2D" parent="down"]
