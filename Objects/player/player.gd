@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var mv_INITIAL_JUMP_HEIGHT: int = 120 ## Lowest Jump force.
 @export var mv_ADDITIONAL_JUMP_HEIGHT: int = 480 ## Highest Jump force.
 @export var mv_CELERATION_STEPS: int = 12 ## How much steps does it require for the player to come to stop / to full speed.
-@export var mv_DASHSPEED: Vector2 = Vector2(180, 220) ## WIP
+@export var mv_DASHSPEED: Vector2 = Vector2(200, 220) ## WIP
 @export var mv_SPEED_REDUCTION_RATE: int = 16 ## WIP
 @export var mv_SPEED_REDUCTION_RATE_AIR: int = 4 ## WIP
 var mv_ACCELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Acceleration.
@@ -39,13 +39,13 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		#print("can_jump: true")
 		can_jump = true
+		if abs(velocity.x) <= 130:
+			can_dash = true
 	else: # When on floor, dont process gravity.
 		#print("can_jump: false")
 		can_jump = false 
 		velocity += get_gravity() * delta
-	
-	if is_on_floor() && !was_on_floor:
-		can_dash = true
+
 	# Jumping
 	if Input.is_action_just_pressed("ui_accept") and can_jump:
 		velocity.y = -mv_INITIAL_JUMP_HEIGHT
@@ -79,9 +79,8 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity + (mv_DASHSPEED * dashdirection)
 		print(dashdirection)
 		can_dash = false
-		if is_on_floor():
-			get_node("DashTimer").start(0.5)
-			was_on_floor = is_on_floor()
+#		if is_on_floor():
+#			get_node("DashTimer").start(0.5)
 	move_and_slide()
 	
 func reset():
