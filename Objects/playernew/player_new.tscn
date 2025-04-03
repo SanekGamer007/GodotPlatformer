@@ -1,36 +1,41 @@
-[gd_scene load_steps=17 format=3 uid="uid://c3jsmrfav6jir"]
+[gd_scene load_steps=18 format=3 uid="uid://cwsfy2tc4gdg1"]
 
-[ext_resource type="Script" uid="uid://c3ho4msngx4k4" path="res://Objects/player/player.gd" id="1_ym8jc"]
+[ext_resource type="Script" uid="uid://caqk2868nuyfy" path="res://Objects/playernew/player_new.gd" id="1_gwu42"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_66vr1"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pe56i"]
 size = Vector2(14, 14)
 
-[sub_resource type="Gradient" id="Gradient_ym8jc"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 0, 0, 1)
+[sub_resource type="Gradient" id="Gradient_gwu42"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.53, 1, 0.780667, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_66vr1"]
-gradient = SubResource("Gradient_ym8jc")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3iqx4"]
+gradient = SubResource("Gradient_gwu42")
 width = 14
+height = 14
+fill_to = Vector2(0, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwu42"]
+size = Vector2(14, 14)
 
 [sub_resource type="Gradient" id="Gradient_66vr1"]
 offsets = PackedFloat32Array(0)
-colors = PackedColorArray(1, 0, 0, 1)
+colors = PackedColorArray(0.529412, 1, 0.780392, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_cw3ca"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gwu42"]
 gradient = SubResource("Gradient_66vr1")
 width = 7
 height = 7
 fill_to = Vector2(0, 0)
 
-[sub_resource type="Curve" id="Curve_66vr1"]
+[sub_resource type="Curve" id="Curve_3iqx4"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.804535, 1), -0.00468943, -0.00468943, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_cw3ca"]
-curve = SubResource("Curve_66vr1")
+curve = SubResource("Curve_3iqx4")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t4qcv"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gyxev"]
 particle_flag_disable_z = true
 angular_velocity_min = -1.60933e-05
 angular_velocity_max = -1.60933e-05
@@ -49,31 +54,31 @@ scale_curve = SubResource("CurveTexture_cw3ca")
 sub_emitter_mode = 1
 sub_emitter_frequency = 24.0
 
-[sub_resource type="Gradient" id="Gradient_0dui8"]
+[sub_resource type="Gradient" id="Gradient_cw3ca"]
 offsets = PackedFloat32Array(0)
-colors = PackedColorArray(1, 0, 0, 1)
+colors = PackedColorArray(0.529412, 1, 0.780392, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_0dui8"]
-gradient = SubResource("Gradient_0dui8")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_eeuch"]
+gradient = SubResource("Gradient_cw3ca")
 width = 3
 height = 3
 fill_to = Vector2(0, 0)
 
-[sub_resource type="Curve" id="Curve_3o3u1"]
+[sub_resource type="Curve" id="Curve_sx6bg"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.79546, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_3o3u1"]
-curve = SubResource("Curve_3o3u1")
+[sub_resource type="CurveTexture" id="CurveTexture_t4qcv"]
+curve = SubResource("Curve_sx6bg")
 
-[sub_resource type="Curve" id="Curve_ym8jc"]
+[sub_resource type="Curve" id="Curve_p55i7"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.53048, 1), -0.157131, -0.157131, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_t4qcv"]
-curve = SubResource("Curve_ym8jc")
+[sub_resource type="CurveTexture" id="CurveTexture_66vr1"]
+curve = SubResource("Curve_p55i7")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4kjos"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7hubq"]
 particle_flag_disable_z = true
 angle_min = 1.07288e-05
 angle_max = 1.07288e-05
@@ -86,54 +91,49 @@ radial_accel_min = -2.23517e-06
 radial_accel_max = -2.23517e-06
 tangential_accel_min = -2.23517e-06
 tangential_accel_max = -2.23517e-06
-scale_curve = SubResource("CurveTexture_t4qcv")
-alpha_curve = SubResource("CurveTexture_3o3u1")
+scale_curve = SubResource("CurveTexture_66vr1")
+alpha_curve = SubResource("CurveTexture_t4qcv")
 
-[node name="player" type="CharacterBody2D"]
-physics_interpolation_mode = 1
+[node name="PlayerNew" type="CharacterBody2D"]
 floor_stop_on_slope = false
 floor_constant_speed = true
-floor_snap_length = 0.5
-script = ExtResource("1_ym8jc")
-mv_ADDITIONAL_JUMP_HEIGHT = 479
+script = ExtResource("1_gwu42")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_66vr1")
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pe56i")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(1, 14)
-texture = SubResource("GradientTexture1D_66vr1")
+texture = SubResource("GradientTexture2D_3iqx4")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 2
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hurtbox"]
-shape = SubResource("RectangleShape2D_66vr1")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_gwu42")
 
 [node name="DeathEffect" type="GPUParticles2D" parent="."]
 physics_interpolation_mode = 1
 emitting = false
 amount = 4
 sub_emitter = NodePath("secondparticles")
-texture = SubResource("GradientTexture2D_cw3ca")
+texture = SubResource("GradientTexture2D_gwu42")
 lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 fixed_fps = 60
 trail_section_subdivisions = 16
-process_material = SubResource("ParticleProcessMaterial_t4qcv")
+process_material = SubResource("ParticleProcessMaterial_gyxev")
 
 [node name="secondparticles" type="GPUParticles2D" parent="DeathEffect"]
 emitting = false
 amount = 256
-texture = SubResource("GradientTexture2D_0dui8")
+texture = SubResource("GradientTexture2D_eeuch")
 lifetime = 0.7
-process_material = SubResource("ParticleProcessMaterial_4kjos")
+process_material = SubResource("ParticleProcessMaterial_7hubq")
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
 
 [connection signal="body_shape_entered" from="Hurtbox" to="." method="_on_hurtbox_body_shape_entered"]
-[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
