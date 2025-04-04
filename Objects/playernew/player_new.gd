@@ -115,6 +115,8 @@ func set_state(new_state: int) -> void:
 		get_node("Sprite2D").visible = false
 		get_node("DeathEffect").visible = true
 		get_node("DeathEffect").emitting = true
+		if get_node("PlayerCam"):
+			get_node("PlayerCam").global_position = global_position - Vector2(7,7)
 		self.set_physics_process(false)
 		if get_node("../RespawnText"):
 			get_node("../RespawnText").visible = true
@@ -148,6 +150,6 @@ func reset():
 	
 
 
-func _on_hurtbox_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+func _on_hurtbox_body_shape_entered(_body_rid: RID, _body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
 	if not isgod:
 		set_state(states.DEAD)

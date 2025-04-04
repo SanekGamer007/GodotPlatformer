@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhkgi03agnmmo"]
+
+[ext_resource type="PackedScene" uid="uid://cwsfy2tc4gdg1" path="res://Objects/playernew/player_new.tscn" id="1_qet7x"]
+[ext_resource type="PackedScene" uid="uid://c7e3ttcujv0vl" path="res://Objects/player/player_cam.tscn" id="2_esmqw"]
+[ext_resource type="PackedScene" uid="uid://c8ktiqr5n2mnh" path="res://Objects/touch/touch.tscn" id="3_32sdm"]
+
+[node name="main_map" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_qet7x")]
+
+[node name="PlayerCam" parent="Player" instance=ExtResource("2_esmqw")]
+
+[node name="touch" parent="." instance=ExtResource("3_32sdm")]

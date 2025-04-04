@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://byushar64hmya"]
+[gd_scene load_steps=12 format=4 uid="uid://byushar64hmya"]
 
 [ext_resource type="Script" uid="uid://b6p56ng84e3gq" path="res://Maps/test_map/test_map.gd" id="1_8i6cp"]
 [ext_resource type="PackedScene" uid="uid://yktuwsa8872y" path="res://Tiles/test_tilemap/test.tscn" id="2_oqus1"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c8gw3wqry8xi2" path="res://Tiles/objects/objects.tscn" id="7_11nxo"]
 [ext_resource type="Texture2D" uid="uid://co2m5i3nhgs2h" path="res://Maps/test_map/bg/test_bg_parallax1.png" id="8_11nxo"]
 [ext_resource type="Texture2D" uid="uid://dacf6emeuv8nk" path="res://Maps/test_map/bg/test_bg_parallax2.png" id="9_ec4jh"]
+[ext_resource type="PackedScene" uid="uid://c7e3ttcujv0vl" path="res://Objects/player/player_cam.tscn" id="9_hv35n"]
 [ext_resource type="PackedScene" uid="uid://dbk8edbkhbd0e" path="res://Objects/DebugOverlay/debug.tscn" id="10_11nxo"]
 
 [node name="test_map" type="Node2D"]
@@ -67,13 +68,8 @@ tile_map_data = PackedByteArray("AAAAAA4AAAABAAAAAAAAAA8AAAABAAEAAAAAABAAAAABAAE
 [node name="player" parent="." instance=ExtResource("5_11nxo")]
 unique_name_in_owner = true
 
-[node name="PlayerCam" type="Camera2D" parent="player"]
+[node name="PlayerCam" parent="player" instance=ExtResource("9_hv35n")]
 position = Vector2(8, 8)
-position_smoothing_enabled = true
-drag_horizontal_enabled = true
-drag_vertical_enabled = true
-drag_right_margin = 0.1
-editor_draw_drag_margin = true
 
 [node name="touch" parent="." instance=ExtResource("3_nrpge")]
 

@@ -1,0 +1,86 @@
+[gd_scene load_steps=4 format=3 uid="uid://drgepco3wkw3a"]
+
+[ext_resource type="Texture2D" uid="uid://duremw7csmym2" path="res://Maps/test_map/test_map_ico.png" id="1_4mn8e"]
+[ext_resource type="Script" uid="uid://bdnloc20rrfcd" path="res://Maps/title_map/LocalObjects/Button/button.gd" id="1_4xhi6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4xhi6"]
+font_size = 48
+
+[node name="title_map" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -168.5
+offset_top = 8.0
+offset_right = 168.5
+offset_bottom = 67.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Title"]
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_4xhi6")
+horizontal_alignment = 1
+
+[node name="Menu" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.75
+anchor_right = 0.5
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="Menu"]
+layout_mode = 2
+text = "start
+"
+script = ExtResource("1_4xhi6")
+
+[node name="LevelSelect" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -59.0
+offset_right = 80.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelSelect"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="LevelSelect/VBoxContainer"]
+layout_mode = 2
+text = "Level Select"
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="LevelSelect/VBoxContainer"]
+custom_minimum_size = Vector2(160, 72)
+layout_mode = 2
+item_count = 2
+item_0/text = "test_map"
+item_0/icon = ExtResource("1_4mn8e")
+item_1/text = "main_map"
+
+[node name="BoxContainer2" type="BoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="pressed" from="Menu/Button" to="Menu/Button" method="_on_pressed"]
+[connection signal="item_selected" from="LevelSelect/VBoxContainer/ItemList" to="Menu/Button" method="_on_item_list_item_selected"]

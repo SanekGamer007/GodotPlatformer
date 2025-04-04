@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="platformer_test_Reborn"
-run/main_scene="uid://byushar64hmya"
+run/main_scene="uid://drgepco3wkw3a"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
