@@ -75,12 +75,15 @@ func _physics_process(delta: float) -> void:
 		# i have no idea why the fuck it works but it does
 		# (fixes a bug when you can do the additional jump
 		# force in the air after walking off a platform without jumping)
-		if Input.is_action_pressed("ui_accept") and not is_on_floor():
+		if Input.is_action_pressed("ui_accept") and not is_on_floor() and not state == states.DASHING:
 			velocity.y -= mv_ADDITIONAL_JUMP_HEIGHT * delta
 			#print("additional jump active")
 	if state == states.DASHING:
 		var dashdirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		print(abs(velocity + (mv_DASHSPEED * dashdirection)))
+		if abs(dashdirection.y) > 0.1 and Input.is_action_pressed("ui_accept"):
+			print("AA")
+			dashdirection.y = 0.25 * sign(dashdirection.y)
 		if abs(velocity + (mv_DASHSPEED * dashdirection)) > Vector2(mv_MAX_DASH_SPEED, mv_MAX_DASH_SPEED):
 			velocity = velocity + ((mv_DASHSPEED * dashdirection) / 2.2)
 		else:
