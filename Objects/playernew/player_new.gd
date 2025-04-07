@@ -44,7 +44,8 @@ func _physics_process(delta: float) -> void:
 		set_state(states.DASHING)
 	elif velocity.y > 1:
 		set_state(states.FALLING)
-	elif Input.is_action_just_pressed("ui_accept"):
+	#elif Input.is_action_just_pressed("ui_accept"):
+	elif Input.is_action_pressed("ui_accept") and is_on_floor():
 		set_state(states.JUMPING)
 	elif velocity != Vector2.ZERO:
 		set_state(states.MOVING)
