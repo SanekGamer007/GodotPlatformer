@@ -34,6 +34,7 @@ var state: states = states.IDLE
 var mv_ACCELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Acceleration.
 var mv_DECELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Deceleration.
 var candash: bool = true ## WIP
+var objectkilled
 
 
 func _physics_process(delta: float) -> void:
@@ -120,7 +121,8 @@ func set_state(new_state: int) -> void:
 		get_node("DeathEffect").visible = true
 		get_node("DeathEffect").emitting = true
 		if get_node("PlayerCam"):
-			get_node("PlayerCam").global_position = global_position - Vector2(7,7)
+			print(objectkilled)
+			get_node("PlayerCam").global_position = objectkilled
 		self.set_physics_process(false)
 		if get_node("../RespawnText"):
 			get_node("../RespawnText").visible = true
@@ -151,9 +153,7 @@ func reset():
 	
 	
 	
-	
-
-
-func _on_hurtbox_body_shape_entered(_body_rid: RID, _body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
+func _on_hurtbox_body_shape_entered(body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
+	objectkilled = body.to_global(body.map_to_local(body.get_coords_for_body_rid(body_rid)))
 	if not isgod:
 		set_state(states.DEAD)

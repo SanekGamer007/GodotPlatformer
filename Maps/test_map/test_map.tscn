@@ -89,4 +89,4 @@ vertical_alignment = 1
 [node name="Debug" parent="." instance=ExtResource("10_11nxo")]
 
 [node name="Spikeold" parent="." instance=ExtResource("12_hv35n")]
-position = Vector2(64, 210)
+position = Vector2(-220, 51)
