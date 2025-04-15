@@ -30,9 +30,13 @@ var state: states = states.IDLE
 @export var mv_DASHSPEED: Vector2 = Vector2(140, 200) ## WIP
 @export var mv_SPEED_REDUCTION_RATE: int = 16 ## WIP
 @export var mv_SPEED_REDUCTION_RATE_AIR: int = 4 ## WIP
-@export var isgod: bool = false
 var mv_ACCELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Acceleration.
 var mv_DECELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Deceleration.
+
+@export_group("Unlocks","un_")
+@export var un_Dashing: bool = false ## Ability to dash.
+
+@export var isgod: bool = false
 var candash: bool = true ## WIP
 var objectkilled
 
@@ -80,7 +84,7 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_pressed("ui_accept") and not is_on_floor() and not state == states.DASHING:
 			velocity.y -= mv_ADDITIONAL_JUMP_HEIGHT * delta
 			#print("additional jump active")
-	if state == states.DASHING:
+	if state == states.DASHING and un_Dashing:
 		var dashdirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 		print(abs(velocity + (mv_DASHSPEED * dashdirection)))
 		if abs(dashdirection.y) > 0.1 and Input.is_action_pressed("ui_accept"):
@@ -134,7 +138,10 @@ func set_state(new_state: int) -> void:
 		state = new_state
 
 func reset():
-	position = Vector2.ZERO
+	if get_node("../RespawnPoint"):
+		position = get_node("../RespawnPoint").position
+	else:
+		position = Vector2.ZERO
 	velocity = Vector2.ZERO
 	if get_node("PlayerCam"):
 		get_node("PlayerCam").position_smoothing_enabled = false

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7e3ttcujv0vl"]
+
+[ext_resource type="Script" uid="uid://3afasm86c6wr" path="res://Objects/playernew/player_cam.gd" id="1_katir"]
+
+[node name="PlayerCam" type="Camera2D"]
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.1
+drag_right_margin = 0.1
+editor_draw_drag_margin = true
+script = ExtResource("1_katir")

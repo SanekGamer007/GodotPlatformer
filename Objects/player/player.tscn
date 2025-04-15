@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c3ho4msngx4k4" path="res://Objects/player/player.gd" id="1_ym8jc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_66vr1"]
+custom_solver_bias = 0.2
 size = Vector2(14, 14)
 
 [sub_resource type="Gradient" id="Gradient_ym8jc"]
@@ -113,6 +114,7 @@ shape = SubResource("RectangleShape2D_66vr1")
 
 [node name="DeathEffect" type="GPUParticles2D" parent="."]
 physics_interpolation_mode = 1
+z_index = 3
 emitting = false
 amount = 4
 sub_emitter = NodePath("secondparticles")

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cd0xn6y0q02j2"]
+
+[node name="RespawnText" type="CanvasLayer"]
+visible = false
+offset = Vector2(200, 125)
+transform = Transform2D(1, 0, 0, 1, 200, 125)
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "You died xd"
+horizontal_alignment = 1
+vertical_alignment = 1

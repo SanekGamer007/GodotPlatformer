@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="platformer_test_Reborn"
-run/main_scene="uid://drgepco3wkw3a"
+run/main_scene="uid://bxavl86dse2mt"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
 
@@ -20,7 +20,7 @@ config/icon="res://icon.svg"
 window/size/viewport_width=480
 window/size/viewport_height=270
 window/size/mode=2
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 window/stretch/aspect="keep_width"
 
 [input]
