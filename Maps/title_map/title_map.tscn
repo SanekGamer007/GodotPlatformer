@@ -1,10 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://drgepco3wkw3a"]
+[gd_scene load_steps=5 format=3 uid="uid://drgepco3wkw3a"]
 
 [ext_resource type="Texture2D" uid="uid://duremw7csmym2" path="res://Maps/test_map/test_map_ico.png" id="1_4mn8e"]
 [ext_resource type="Script" uid="uid://bdnloc20rrfcd" path="res://Maps/title_map/LocalObjects/Button/button.gd" id="1_4xhi6"]
+[ext_resource type="LabelSettings" uid="uid://c7h26kp2rjn2g" path="res://labelsetting.tres" id="2_507ft"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4xhi6"]
 font_size = 48
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 16
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(-4, 4)
 
 [node name="title_map" type="Control"]
 layout_mode = 3
@@ -43,6 +49,7 @@ grow_vertical = 2
 
 [node name="Button" type="Button" parent="Menu"]
 layout_mode = 2
+theme_override_constants/outline_size = 8
 text = "start
 "
 script = ExtResource("1_4xhi6")
@@ -66,12 +73,14 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="LevelSelect/VBoxContainer"]
 layout_mode = 2
-text = "Level Select"
+text = "~-Level Select-~"
+label_settings = ExtResource("2_507ft")
 horizontal_alignment = 1
 
 [node name="ItemList" type="ItemList" parent="LevelSelect/VBoxContainer"]
 custom_minimum_size = Vector2(160, 72)
 layout_mode = 2
+theme_override_constants/outline_size = 8
 item_count = 2
 item_0/text = "test_map"
 item_0/icon = ExtResource("1_4mn8e")

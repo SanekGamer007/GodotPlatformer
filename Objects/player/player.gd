@@ -99,9 +99,10 @@ func reset():
 	isalive = true
 
 func GetFloorData(tilemap: Node):
-	var pos = tilemap.local_to_map(tilemap.to_local(global_position + Vector2(0, 14)))
-	var result: TileData = tilemap.get_cell_tile_data(pos)
-	return result
+#	var pos = tilemap.local_to_map(tilemap.to_local(global_position + Vector2(0, 14)))
+#	var result: TileData = tilemap.get_cell_tile_data(pos)
+#	return result
+	pass
 
 
 func _on_hurtbox_body_shape_entered(_body_rid: RID, _body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:

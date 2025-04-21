@@ -1,19 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbk8edbkhbd0e"]
+[gd_scene load_steps=3 format=3 uid="uid://dbk8edbkhbd0e"]
 
 [ext_resource type="Script" uid="uid://bxumnlaup4aw7" path="res://Objects/DebugOverlay/debug_overlay.gd" id="1_6b2yu"]
+[ext_resource type="LabelSettings" uid="uid://c7h26kp2rjn2g" path="res://labelsetting.tres" id="2_hqvkx"]
 
 [node name="Debug" type="CanvasLayer"]
+scale = Vector2(0.5, 0.5)
+transform = Transform2D(0.5, 0, 0, 0.5, 0, 0)
 
 [node name="DebugOverlay" type="Node" parent="."]
 script = ExtResource("1_6b2yu")
 
 [node name="FrameTime" type="Label" parent="DebugOverlay"]
+offset_left = 2.0
 offset_top = 20.0
-offset_right = 40.0
+offset_right = 60.0
 offset_bottom = 43.0
 text = "TSLF: "
+label_settings = ExtResource("2_hqvkx")
 
 [node name="FPS" type="Label" parent="DebugOverlay"]
-offset_right = 40.0
+offset_left = 2.0
+offset_right = 50.0
 offset_bottom = 23.0
 text = "FPS: "
+label_settings = ExtResource("2_hqvkx")

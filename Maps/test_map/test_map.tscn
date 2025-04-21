@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://byushar64hmya"]
+[gd_scene load_steps=13 format=4 uid="uid://byushar64hmya"]
 
 [ext_resource type="Script" uid="uid://b6p56ng84e3gq" path="res://Maps/test_map/test_map.gd" id="1_8i6cp"]
 [ext_resource type="PackedScene" uid="uid://yktuwsa8872y" path="res://Tiles/test_tilemap/test.tscn" id="2_oqus1"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://co2m5i3nhgs2h" path="res://Maps/test_map/bg/test_bg_parallax1.png" id="8_11nxo"]
 [ext_resource type="Texture2D" uid="uid://dacf6emeuv8nk" path="res://Maps/test_map/bg/test_bg_parallax2.png" id="9_ec4jh"]
 [ext_resource type="PackedScene" uid="uid://c7e3ttcujv0vl" path="res://Objects/playernew/player_cam.tscn" id="9_hv35n"]
-[ext_resource type="PackedScene" uid="uid://dbk8edbkhbd0e" path="res://Objects/DebugOverlay/debug.tscn" id="10_11nxo"]
 [ext_resource type="PackedScene" uid="uid://cd0xn6y0q02j2" path="res://Objects/respawn_text/respawn_text.tscn" id="11_y58kg"]
 [ext_resource type="PackedScene" uid="uid://cuon1io7w275" path="res://Objects/spikold/spikeold.tscn" id="12_hv35n"]
 
@@ -73,13 +72,10 @@ un_Dashing = true
 
 [node name="PlayerCam" parent="player" instance=ExtResource("9_hv35n")]
 position = Vector2(8, 8)
-drag_left_margin = 0.1
 
 [node name="touch" parent="." instance=ExtResource("3_nrpge")]
 
 [node name="RespawnText" parent="." instance=ExtResource("11_y58kg")]
-
-[node name="Debug" parent="." instance=ExtResource("10_11nxo")]
 
 [node name="Spikeold" parent="." instance=ExtResource("12_hv35n")]
 position = Vector2(-220, 51)

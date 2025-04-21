@@ -4,8 +4,11 @@ extends Node2D
 
 
 func load_level(level):
-	if loadlocation.get_child(0):
-		loadlocation.get_child(0).queue_free()
+	#if loadlocation.get_child(0):
+		#loadlocation.get_child(0).queue_free()
+	for i in range(loadlocation.get_child_count()):
+		if loadlocation.get_child(i).name != "Debug":
+			loadlocation.get_child(i).queue_free()
 	var s = ResourceLoader.load(level)
 	var newscene = s.instantiate()
 	loadlocation.add_child(newscene)

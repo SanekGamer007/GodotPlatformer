@@ -23,6 +23,10 @@ window/size/mode=2
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
+[gui]
+
+theme/custom_font="uid://euwhwi1a1ntp"
+
 [input]
 
 dash={

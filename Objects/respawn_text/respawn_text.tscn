@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cd0xn6y0q02j2"]
+[gd_scene load_steps=2 format=3 uid="uid://cd0xn6y0q02j2"]
+
+[ext_resource type="LabelSettings" uid="uid://c7h26kp2rjn2g" path="res://labelsetting.tres" id="1_4aw2q"]
 
 [node name="RespawnText" type="CanvasLayer"]
 visible = false
@@ -9,5 +11,6 @@ transform = Transform2D(1, 0, 0, 1, 200, 125)
 offset_right = 40.0
 offset_bottom = 23.0
 text = "You died xd"
+label_settings = ExtResource("1_4aw2q")
 horizontal_alignment = 1
 vertical_alignment = 1
