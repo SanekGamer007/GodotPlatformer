@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cwsfy2tc4gdg1"]
+[gd_scene load_steps=20 format=3 uid="uid://cwsfy2tc4gdg1"]
 
 [ext_resource type="Script" uid="uid://caqk2868nuyfy" path="res://Objects/playernew/player_new.gd" id="1_gwu42"]
 
@@ -94,6 +94,18 @@ tangential_accel_max = -2.23517e-06
 scale_curve = SubResource("CurveTexture_66vr1")
 alpha_curve = SubResource("CurveTexture_t4qcv")
 
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gyxev"]
+gradient = SubResource("Gradient_66vr1")
+width = 3
+height = 3
+fill_to = Vector2(0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sx6bg"]
+gradient = SubResource("Gradient_cw3ca")
+width = 1
+height = 2
+fill_to = Vector2(0, 0)
+
 [node name="PlayerNew" type="CharacterBody2D"]
 floor_stop_on_slope = false
 floor_constant_speed = true
@@ -114,6 +126,7 @@ shape = SubResource("RectangleShape2D_gwu42")
 
 [node name="DeathEffect" type="GPUParticles2D" parent="."]
 physics_interpolation_mode = 1
+visible = false
 emitting = false
 amount = 4
 sub_emitter = NodePath("secondparticles")
@@ -126,9 +139,27 @@ trail_section_subdivisions = 16
 process_material = SubResource("ParticleProcessMaterial_gyxev")
 
 [node name="secondparticles" type="GPUParticles2D" parent="DeathEffect"]
-emitting = false
 amount = 256
 texture = SubResource("GradientTexture2D_eeuch")
+lifetime = 0.7
+process_material = SubResource("ParticleProcessMaterial_7hubq")
+
+[node name="thirdparticles" type="GPUParticles2D" parent="DeathEffect"]
+physics_interpolation_mode = 1
+emitting = false
+amount = 10
+sub_emitter = NodePath("fourthparticles")
+texture = SubResource("GradientTexture2D_gyxev")
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+trail_section_subdivisions = 16
+process_material = SubResource("ParticleProcessMaterial_gyxev")
+
+[node name="fourthparticles" type="GPUParticles2D" parent="DeathEffect/thirdparticles"]
+amount = 256
+texture = SubResource("GradientTexture2D_sx6bg")
 lifetime = 0.7
 process_material = SubResource("ParticleProcessMaterial_7hubq")
 

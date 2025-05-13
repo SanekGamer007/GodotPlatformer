@@ -14,7 +14,7 @@ var statename = {
 	3: "FALLING",
 	4: "DEAD",
 	5: "DASHING",
-}
+	}
 var state: states = states.IDLE
 
 ## Player Movement Script.
@@ -42,22 +42,24 @@ var objectkilled
 
 
 func _physics_process(delta: float) -> void:
-	if is_on_floor():
-		candash = true
-	#print(statename.get(state), " ", velocity, " ", is_on_floor())
 	if Input.is_action_just_pressed("dash"):
 		set_state(states.DASHING)
 	elif velocity.y > 1:
 		set_state(states.FALLING)
-	#elif Input.is_action_just_pressed("ui_accept"):
+	#elif event.is_action_just_pressed("ui_accept"):
 	elif Input.is_action_pressed("ui_accept") and is_on_floor():
 		set_state(states.JUMPING)
 	elif velocity != Vector2.ZERO:
 		set_state(states.MOVING)
 	else:
 		set_state(states.IDLE)
+
+	if is_on_floor():
+		candash = true
+	#print(statename.get(state), " ", velocity, " ", is_on_floor())
 	
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction = Input.get_axis("left", "right") # TODO: cap the speed depending on how big $direction is.
+	print(direction)
 	if direction:
 		if not abs(velocity.x) > mv_MAX_SPEED: 
 			velocity.x = velocity.x + mv_ACCELERATION * direction # if below max speed add more velocity
@@ -66,11 +68,11 @@ func _physics_process(delta: float) -> void:
 				#if above max speed start decreasing velocity
 				velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE) * -1))
 		else:
-			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE_AIR) * -1) #if above max speed start decreasing velocity
+			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE_AIR) * -1) #if above max speed start decreasing velocity (air version)
 	else:
 		velocity.x -= mv_DECELERATION * sign(velocity.x)
 
-	if abs(velocity.x) <= 6:
+	if abs(velocity.x) <= 6 and !direction:
 		velocity.x = 0
 	
 	# Jumping
@@ -124,6 +126,7 @@ func set_state(new_state: int) -> void:
 		get_node("Sprite2D").visible = false
 		get_node("DeathEffect").visible = true
 		get_node("DeathEffect").emitting = true
+		get_node("DeathEffect/thirdparticles").emitting = true
 		if get_node("PlayerCam"):
 			print(objectkilled)
 			get_node("PlayerCam").global_position = objectkilled

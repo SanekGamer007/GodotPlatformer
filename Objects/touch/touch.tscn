@@ -25,7 +25,7 @@ position = Vector2(16, 221)
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
 passby_press = true
-action = "ui_left"
+action = "left"
 
 [node name="Sprite2D" type="Sprite2D" parent="left"]
 texture_filter = 1
@@ -46,7 +46,7 @@ position = Vector2(60, 221)
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
 passby_press = true
-action = "ui_right"
+action = "right"
 
 [node name="Sprite2D" type="Sprite2D" parent="right"]
 texture_filter = 1
@@ -68,7 +68,7 @@ rotation = -1.5708
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
 passby_press = true
-action = "ui_up"
+action = "up"
 
 [node name="Sprite2D" type="Sprite2D" parent="up"]
 texture_filter = 1
@@ -84,7 +84,7 @@ rotation = 1.5708
 scale = Vector2(3, 3)
 texture_normal = ExtResource("1_3f3hq")
 passby_press = true
-action = "ui_down"
+action = "down"
 
 [node name="Sprite2D" type="Sprite2D" parent="down"]
 texture_filter = 1
