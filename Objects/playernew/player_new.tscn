@@ -109,9 +109,11 @@ fill_to = Vector2(0, 0)
 [node name="PlayerNew" type="CharacterBody2D"]
 floor_stop_on_slope = false
 floor_constant_speed = true
+floor_block_on_wall = false
 script = ExtResource("1_gwu42")
 mv_INITIAL_JUMP_HEIGHT = 160
 mv_ADDITIONAL_JUMP_HEIGHT = 640
+mv_DASHSPEED = Vector2(140, 220)
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_pe56i")

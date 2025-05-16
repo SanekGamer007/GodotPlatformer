@@ -74,7 +74,9 @@ func _physics_process(delta: float) -> void:
 
 	if abs(velocity.x) <= 6 and !direction:
 		velocity.x = 0
-	
+		
+		velocity.x * abs(direction)
+		
 	# Jumping
 	if state == states.JUMPING and is_on_floor():
 		velocity.y = -mv_INITIAL_JUMP_HEIGHT
@@ -98,7 +100,7 @@ func _physics_process(delta: float) -> void:
 	
 	velocity += get_gravity() * delta
 	velocity.y = clamp(velocity.y, mv_MAX_VERTICAL_SPEED, mv_MAX_NEGATIVE_VERTICAL_SPEED)
-
+	print(direction, " ", velocity)
 	move_and_slide()
 
 
