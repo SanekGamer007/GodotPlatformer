@@ -7,7 +7,7 @@ enum states {
 	DEAD, 
 	DASHING,
 	}
-var statename = {
+var statename: Dictionary = {
 	0: "IDLE",
 	1: "MOVING",
 	2: "JUMPING",
@@ -23,22 +23,22 @@ var state: states = states.IDLE
 @export var mv_MAX_SPEED: int = 130 ## Max Horizontal player speed.
 @export var mv_MAX_DASH_SPEED: int = 150 + mv_MAX_SPEED ## WIP
 @export var mv_MAX_VERTICAL_SPEED: int = -240 ## Max Vertical player speed.
-@export var mv_NV_MAX_VERTICAL_SPEED: int = 360 ## Max Negative Vertical player speed.
+@export var mv_MAX_NEGATIVE_VERTICAL_SPEED: int = 360 ## Max Negative Vertical player speed.
 @export var mv_INITIAL_JUMP_HEIGHT: int = 120 ## Lowest Jump force.
 @export var mv_ADDITIONAL_JUMP_HEIGHT: int = 500 ## Highest Jump force.
 @export var mv_CELERATION_STEPS: int = 12 ## How much steps does it require for the player to come to stop / to full speed.
 @export var mv_DASHSPEED: Vector2 = Vector2(140, 200) ## WIP
 @export var mv_SPEED_REDUCTION_RATE: int = 16 ## WIP
 @export var mv_SPEED_REDUCTION_RATE_AIR: int = 4 ## WIP
-var mv_ACCELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Acceleration.
-var mv_DECELERATION: int = mv_MAX_SPEED / mv_CELERATION_STEPS ## Deceleration.
+var mv_ACCELERATION: float = float(mv_MAX_SPEED) / float(mv_CELERATION_STEPS) ## Acceleration.
+var mv_DECELERATION: float = float(mv_MAX_SPEED) / float(mv_CELERATION_STEPS) ## Deceleration.
 
 @export_group("Unlocks","un_")
 @export var un_Dashing: bool = false ## Ability to dash.
 
 @export var isgod: bool = false
 var candash: bool = true ## WIP
-var objectkilled
+var objectkilled: Vector2
 
 
 func _physics_process(delta: float) -> void:
@@ -58,8 +58,8 @@ func _physics_process(delta: float) -> void:
 		candash = true
 	#print(statename.get(state), " ", velocity, " ", is_on_floor())
 	
-	var direction = Input.get_axis("left", "right") # TODO: cap the speed depending on how big $direction is.
-	print(direction)
+	var direction: float = Input.get_axis("left", "right") # TODO: cap the speed depending on how big $direction is.
+#	print(direction)
 	if direction:
 		if not abs(velocity.x) > mv_MAX_SPEED: 
 			velocity.x = velocity.x + mv_ACCELERATION * direction # if below max speed add more velocity
@@ -87,37 +87,26 @@ func _physics_process(delta: float) -> void:
 			velocity.y -= mv_ADDITIONAL_JUMP_HEIGHT * delta
 			#print("additional jump active")
 	if state == states.DASHING and un_Dashing:
-		var dashdirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-		print(abs(velocity + (mv_DASHSPEED * dashdirection)))
+		var dashdirection: Vector2 = Input.get_vector("left", "right", "up", "down")
 		if abs(dashdirection.y) > 0.1 and Input.is_action_pressed("ui_accept"):
-			print("AA")
 			dashdirection.y = 0.25 * sign(dashdirection.y)
 		if abs(velocity + (mv_DASHSPEED * dashdirection)) > Vector2(mv_MAX_DASH_SPEED, mv_MAX_DASH_SPEED):
 			velocity = velocity + ((mv_DASHSPEED * dashdirection) / 2.2)
 		else:
 			velocity = velocity + (mv_DASHSPEED * dashdirection)
-		print(dashdirection)
 
 	
 	velocity += get_gravity() * delta
-	velocity.y = clamp(velocity.y, mv_MAX_VERTICAL_SPEED, mv_NV_MAX_VERTICAL_SPEED)
+	velocity.y = clamp(velocity.y, mv_MAX_VERTICAL_SPEED, mv_MAX_NEGATIVE_VERTICAL_SPEED)
 
 	move_and_slide()
 
 
 func set_state(new_state: int) -> void:
-	var previous_state := state
+	#var previous_state: int = state
 	#print(statename.get(previous_state), " ", statename.get(new_state))
 	#if previous_state == states.MOVING and new_state == states.DASHING or previous_state == states.FALLING and new_state == states.DASHING:
 	if new_state == states.DASHING:
-		#if is_on_floor():
-			#if get_node("DashTimer").is_stopped() == true:
-				#get_node("DashTimer").start(0.3)
-				#state = new_state
-				#candash = false
-				#return
-			#else:
-			#return
 		if not is_on_floor() and candash:
 			state = new_state
 			candash = false
@@ -140,7 +129,7 @@ func set_state(new_state: int) -> void:
 	else:
 		state = new_state
 
-func reset():
+func reset() -> void: # -> void means that nothing is going to be returned
 	if get_node("../RespawnPoint"):
 		position = get_node("../RespawnPoint").position
 	else:
@@ -149,7 +138,8 @@ func reset():
 	if get_node("PlayerCam"):
 		get_node("PlayerCam").position_smoothing_enabled = false
 		get_node("PlayerCam").global_position = global_position
-		for n in 2: # wait 2 frames to be sure that the camera gets reset.
+		@warning_ignore("inferred_declaration")
+		for frame in 2: # wait 2 frames to be sure that the camera gets reset.
 			await get_tree().physics_frame
 		get_node("PlayerCam").position_smoothing_enabled = true
 	self.visible = true

@@ -1,8 +1,8 @@
 extends Button
 var mapselected: int
-const test_map = ("res://Maps/test_map/test_map.tscn")
-const main_map = ("res://Maps/main_map/main_map.tscn")
-const maps = {
+const test_map: String = ("res://Maps/test_map/test_map.tscn")
+const main_map: String = ("res://Maps/main_map/main_map.tscn")
+const maps: Dictionary = {
 	0: test_map,
 	1: main_map,
 }
