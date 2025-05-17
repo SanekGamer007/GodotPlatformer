@@ -7,7 +7,7 @@ enum states {
 	DEAD, 
 	DASHING,
 	}
-#var statename: Dictionary = {
+#var statename: Dictionary = {  #NOTE: exists only for debugging purposes
 #	0: "IDLE",
 #	1: "MOVING",
 #	2: "JUMPING",
@@ -21,23 +21,23 @@ var state: states = states.IDLE
 
 @export_group("Movement","mv_")
 @export var mv_MAX_SPEED: int = 130 ## Max Horizontal player speed.
-@export var mv_MAX_DASH_SPEED: int = 150 + mv_MAX_SPEED ## WIP
+@export var mv_MAX_DASH_SPEED: int = 280 ## Maximum Dash speed, make sure that its bigger than the max speed.
 @export var mv_MAX_VERTICAL_SPEED: int = -240 ## Max Vertical player speed.
 @export var mv_MAX_NEGATIVE_VERTICAL_SPEED: int = 360 ## Max Negative Vertical player speed.
 @export var mv_INITIAL_JUMP_HEIGHT: int = 120 ## Lowest Jump force.
 @export var mv_ADDITIONAL_JUMP_HEIGHT: int = 500 ## Highest Jump force.
-@export var mv_CELERATION_STEPS: int = 12 ## How much steps does it require for the player to come to stop / to full speed.
-@export var mv_DASHSPEED: Vector2 = Vector2(140, 200) ## WIP
-@export var mv_SPEED_REDUCTION_RATE: int = 16 ## WIP
-@export var mv_SPEED_REDUCTION_RATE_AIR: int = 4 ## WIP
-var mv_ACCELERATION: float = float(mv_MAX_SPEED) / float(mv_CELERATION_STEPS) ## Acceleration.
-var mv_DECELERATION: float = float(mv_MAX_SPEED) / float(mv_CELERATION_STEPS) ## Deceleration.
+@export var mv_ACCELERATION_STEPS: int = 12 ## How much steps does it require for the player to come to stop / to full speed.
+@export var mv_DASHSPEED: Vector2 = Vector2(140, 200) ## Speed of the dash in Vector2 format.
+@export var mv_SPEED_REDUCTION_RATE: int = 16 ## Amount of speed that gets lost per frame on the land.
+@export var mv_SPEED_REDUCTION_RATE_AIR: int = 4 ## Amount of speed that gets lost per frame in the air.
+var mv_ACCELERATION: float = float(mv_MAX_SPEED) / float(mv_ACCELERATION_STEPS) ## Acceleration.
+var mv_DECELERATION: float = float(mv_MAX_SPEED) / float(mv_ACCELERATION_STEPS) ## Deceleration.
 
-@export_group("Unlocks","un_")
-@export var un_Dashing: bool = false ## Ability to dash.
+@export_group("Unlocks","unl_")
+@export var unl_Dashing: bool = false ## Ability to dash.
 
 @export var isgod: bool = false
-var candash: bool = true ## WIP
+var candash: bool = true ## WIP HACK
 var objectkilled: Vector2
 
 
@@ -56,10 +56,7 @@ func _physics_process(delta: float) -> void:
 
 	if is_on_floor():
 		candash = true
-	#print(statename.get(state), " ", velocity, " ", is_on_floor())
-	
-	var direction: float = Input.get_axis("left", "right") # TODO: cap the speed depending on how big $direction is.
-#	print(direction)
+	var direction: float = Input.get_axis("left", "right")
 	var mv_MAX_SPEED_ANALOG: float = mv_MAX_SPEED * abs(direction)
 	if direction:
 		if not abs(velocity.x) > mv_MAX_SPEED_ANALOG: 
@@ -72,21 +69,16 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x -= mv_DECELERATION * sign(velocity.x)
 	
-	if abs(velocity.x) <= 6 and !direction:
+	if abs(velocity.x) <= 6 and !direction: # fixes a bug where sometimes velocity goes back and flrth between -6* and 6*
 		velocity.x = 0
 	
 	# Jumping
 	if state == states.JUMPING and is_on_floor():
 		velocity.y = -mv_INITIAL_JUMP_HEIGHT
-		#print("jumping")
 	if velocity.y < 0:
-		# i have no idea why the fuck it works but it does
-		# (fixes a bug when you can do the additional jump
-		# force in the air after walking off a platform without jumping)
 		if Input.is_action_pressed("ui_accept") and not is_on_floor() and not state == states.DASHING:
 			velocity.y -= mv_ADDITIONAL_JUMP_HEIGHT * delta
-			#print("additional jump active")
-	if state == states.DASHING and un_Dashing:
+	if state == states.DASHING and unl_Dashing:
 		var dashdirection: Vector2 = Input.get_vector("left", "right", "up", "down")
 		if abs(dashdirection.y) > 0.1 and Input.is_action_pressed("ui_accept"):
 			dashdirection.y = 0.25 * sign(dashdirection.y)
@@ -102,10 +94,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
-func set_state(new_state: int) -> void:
-	#var previous_state: int = state
-	#print(statename.get(previous_state), " ", statename.get(new_state))
-	#if previous_state == states.MOVING and new_state == states.DASHING or previous_state == states.FALLING and new_state == states.DASHING:
+func set_state(new_state: states) -> void:
 	if new_state == states.DASHING:
 		if not is_on_floor() and candash:
 			state = new_state
@@ -129,11 +118,11 @@ func set_state(new_state: int) -> void:
 	else:
 		state = new_state
 
-func reset() -> void: # -> void means that nothing is going to be returned
+func reset() -> void: # "-> void" means that nothing is going to be returned
 	if get_node("PlayerCam"):
 		get_node("PlayerCam").position_smoothing_enabled = false
 		get_node("PlayerCam").global_position = global_position
-		for frame in 2: # wait 2 frames to be sure that the camera gets reset.
+		for frame in 2: # wait 2 frames to be sure that the camera gets reset. FIXME: it broke AGAIN.
 			await get_tree().physics_frame
 		get_node("PlayerCam").position_smoothing_enabled = true
 	if get_node("../RespawnPoint"):

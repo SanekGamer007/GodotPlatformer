@@ -20,7 +20,6 @@ metadata/_edit_vertical_guides_ = [-117.0, -210.0]
 [node name="player" parent="." instance=ExtResource("5_11nxo")]
 unique_name_in_owner = true
 z_index = 1
-un_Dashing = true
 
 [node name="PlayerCam" parent="player" instance=ExtResource("9_hv35n")]
 
