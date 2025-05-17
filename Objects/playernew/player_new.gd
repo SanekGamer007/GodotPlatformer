@@ -7,14 +7,14 @@ enum states {
 	DEAD, 
 	DASHING,
 	}
-var statename: Dictionary = {
-	0: "IDLE",
-	1: "MOVING",
-	2: "JUMPING",
-	3: "FALLING",
-	4: "DEAD",
-	5: "DASHING",
-	}
+#var statename: Dictionary = {
+#	0: "IDLE",
+#	1: "MOVING",
+#	2: "JUMPING",
+#	3: "FALLING",
+#	4: "DEAD",
+#	5: "DASHING",
+#	}
 var state: states = states.IDLE
 
 ## Player Movement Script.
@@ -60,23 +60,21 @@ func _physics_process(delta: float) -> void:
 	
 	var direction: float = Input.get_axis("left", "right") # TODO: cap the speed depending on how big $direction is.
 #	print(direction)
+	var mv_MAX_SPEED_ANALOG: float = mv_MAX_SPEED * abs(direction)
 	if direction:
-		if not abs(velocity.x) > mv_MAX_SPEED: 
+		if not abs(velocity.x) > mv_MAX_SPEED_ANALOG: 
 			velocity.x = velocity.x + mv_ACCELERATION * direction # if below max speed add more velocity
 		elif is_on_floor():
-			velocity.x = (
-				#if above max speed start decreasing velocity
-				velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE) * -1))
+			#if above max speed start decreasing velocity
+			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE) * -1)
 		else:
 			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE_AIR) * -1) #if above max speed start decreasing velocity (air version)
 	else:
 		velocity.x -= mv_DECELERATION * sign(velocity.x)
-
+	
 	if abs(velocity.x) <= 6 and !direction:
 		velocity.x = 0
-		
-		velocity.x * abs(direction)
-		
+	
 	# Jumping
 	if state == states.JUMPING and is_on_floor():
 		velocity.y = -mv_INITIAL_JUMP_HEIGHT
@@ -132,18 +130,17 @@ func set_state(new_state: int) -> void:
 		state = new_state
 
 func reset() -> void: # -> void means that nothing is going to be returned
+	if get_node("PlayerCam"):
+		get_node("PlayerCam").position_smoothing_enabled = false
+		get_node("PlayerCam").global_position = global_position
+		for frame in 2: # wait 2 frames to be sure that the camera gets reset.
+			await get_tree().physics_frame
+		get_node("PlayerCam").position_smoothing_enabled = true
 	if get_node("../RespawnPoint"):
 		position = get_node("../RespawnPoint").position
 	else:
 		position = Vector2.ZERO
 	velocity = Vector2.ZERO
-	if get_node("PlayerCam"):
-		get_node("PlayerCam").position_smoothing_enabled = false
-		get_node("PlayerCam").global_position = global_position
-		@warning_ignore("inferred_declaration")
-		for frame in 2: # wait 2 frames to be sure that the camera gets reset.
-			await get_tree().physics_frame
-		get_node("PlayerCam").position_smoothing_enabled = true
 	self.visible = true
 	get_node("Sprite2D").visible = true
 	self.set_physics_process(true)

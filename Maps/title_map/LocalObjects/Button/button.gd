@@ -2,9 +2,11 @@ extends Button
 var mapselected: int
 const test_map: String = ("res://Maps/test_map/test_map.tscn")
 const main_map: String = ("res://Maps/main_map/main_map.tscn")
+const light_test_map: String = ("res://Maps/light_test_map/light_test_map.tscn")
 const maps: Dictionary = {
 	0: test_map,
 	1: main_map,
+	2: light_test_map,
 }
 
 

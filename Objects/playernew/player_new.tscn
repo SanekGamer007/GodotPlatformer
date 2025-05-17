@@ -13,6 +13,7 @@ colors = PackedColorArray(0.53, 1, 0.780667, 1)
 gradient = SubResource("Gradient_gwu42")
 width = 14
 height = 14
+use_hdr = true
 fill_to = Vector2(0, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gwu42"]

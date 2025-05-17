@@ -81,10 +81,11 @@ horizontal_alignment = 1
 custom_minimum_size = Vector2(160, 72)
 layout_mode = 2
 theme_override_constants/outline_size = 8
-item_count = 2
+item_count = 3
 item_0/text = "test_map"
 item_0/icon = ExtResource("1_4mn8e")
 item_1/text = "main_map"
+item_2/text = "light_test_map"
 
 [node name="BoxContainer2" type="BoxContainer" parent="."]
 layout_mode = 0
