@@ -2,4 +2,5 @@ extends Node2D
 
 func _physics_process(delta: float) -> void:
 	if %player.global_position.y > 640 and %player.state != %player.states.DEAD:
-		%player.set_state(%player.states.DEAD)
+		#%player.set_state(%player.states.DEAD)
+		%player.reset()

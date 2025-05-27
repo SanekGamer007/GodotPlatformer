@@ -1,4 +1,5 @@
 extends CharacterBody2D
+#
 enum states {
 	IDLE, 
 	MOVING, 
@@ -15,9 +16,6 @@ enum states {
 #	4: "DEAD",
 #	5: "DASHING",
 #	}
-var state: states = states.IDLE
-
-## Player Movement Script.
 
 @export_group("Movement","mv_")
 @export var mv_MAX_SPEED: int = 130 ## Max Horizontal player speed.
@@ -39,7 +37,7 @@ var mv_DECELERATION: float = float(mv_MAX_SPEED) / float(mv_ACCELERATION_STEPS) 
 @export var isgod: bool = false
 var candash: bool = true ## WIP HACK
 var objectkilled: Vector2
-
+var state: states = states.IDLE
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("dash"):
@@ -122,7 +120,7 @@ func reset() -> void: # "-> void" means that nothing is going to be returned
 	if get_node("PlayerCam"):
 		get_node("PlayerCam").position_smoothing_enabled = false
 		get_node("PlayerCam").global_position = global_position
-		for frame in 2: # wait 2 frames to be sure that the camera gets reset. FIXME: it broke AGAIN.
+		for frame: int in 2: # wait 2 frames to be sure that the camera gets reset. FIXME: it broke AGAIN.
 			await get_tree().physics_frame
 		get_node("PlayerCam").position_smoothing_enabled = true
 	if get_node("../RespawnPoint"):

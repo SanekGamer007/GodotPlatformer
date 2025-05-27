@@ -30,10 +30,11 @@ offset_top = 8.0
 offset_right = 168.5
 offset_bottom = 67.0
 grow_horizontal = 2
+alignment = 1
 
 [node name="Label" type="Label" parent="Title"]
 layout_mode = 2
-text = "PLACEHOLDER"
+text = "JUMPY"
 label_settings = SubResource("LabelSettings_4xhi6")
 horizontal_alignment = 1
 

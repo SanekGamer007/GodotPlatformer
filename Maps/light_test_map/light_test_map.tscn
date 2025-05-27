@@ -1,28 +1,54 @@
-[gd_scene load_steps=7 format=4 uid="uid://ci0oacm7dl38j"]
+[gd_scene load_steps=11 format=4 uid="uid://ci0oacm7dl38j"]
 
-[ext_resource type="Texture2D" uid="uid://dj8sn6l88vaut" path="res://Tiles/test_tilemap/2d_lights_and_shadows_neutral_point_light.webp" id="1_mpb0c"]
 [ext_resource type="PackedScene" uid="uid://cwsfy2tc4gdg1" path="res://Objects/playernew/player_new.tscn" id="1_pt6ir"]
 [ext_resource type="PackedScene" uid="uid://c7e3ttcujv0vl" path="res://Objects/playernew/player_cam.tscn" id="2_p607m"]
 [ext_resource type="PackedScene" uid="uid://yktuwsa8872y" path="res://Tiles/test_tilemap/test.tscn" id="3_rawww"]
 [ext_resource type="Texture2D" uid="uid://dtvxp61d0wvl0" path="res://icon.svg" id="4_jqkv8"]
 [ext_resource type="PackedScene" uid="uid://c8ktiqr5n2mnh" path="res://Objects/touch/touch.tscn" id="4_p607m"]
 
+[sub_resource type="Gradient" id="Gradient_rawww"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mpb0c"]
+gradient = SubResource("Gradient_rawww")
+width = 256
+height = 256
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_jqkv8"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uc8vo"]
+gradient = SubResource("Gradient_jqkv8")
+width = 256
+height = 256
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_mpb0c"]
+polygon = PackedVector2Array(6, 6, -6, 6, -6, -6, 6, -6)
+
 [node name="light_test_map" type="Node2D"]
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(94, 116)
+position = Vector2(104, 148)
+scale = Vector2(2.24609, 1.14062)
+energy = 3.0
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 1)
 shadow_filter = 2
-shadow_filter_smooth = 2.0
-texture = ExtResource("1_mpb0c")
-texture_scale = 2.0
-height = 32.0
+shadow_filter_smooth = 6.0
+texture = SubResource("GradientTexture2D_mpb0c")
 
 [node name="PointLight2D2" type="PointLight2D" parent="PointLight2D"]
 shadow_color = Color(0, 0, 0, 1)
-texture = ExtResource("1_mpb0c")
-texture_scale = 2.0
+texture = SubResource("GradientTexture2D_uc8vo")
 height = 32.0
 metadata/_edit_lock_ = true
 
@@ -37,11 +63,13 @@ max_distance = 10018.0
 
 [node name="player" parent="." instance=ExtResource("1_pt6ir")]
 unique_name_in_owner = true
-un_Dashing = true
 metadata/_edit_lock_ = true
 
 [node name="PlayerCam" parent="player" instance=ExtResource("2_p607m")]
 metadata/_edit_lock_ = true
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="player"]
+occluder = SubResource("OccluderPolygon2D_mpb0c")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.521569, 0.552941, 0.576471, 1)

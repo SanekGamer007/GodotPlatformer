@@ -13,7 +13,11 @@ config_version=5
 config/name="platformer_test_Reborn"
 run/main_scene="uid://bxavl86dse2mt"
 config/features=PackedStringArray("4.4", "Mobile")
+run/max_fps=144
 config/icon="res://icon.svg"
+boot_splash/show_image=false
+boot_splash/fullsize=false
+boot_splash/use_filter=false
 
 [debug]
 
