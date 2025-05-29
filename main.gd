@@ -1,7 +1,8 @@
 extends Node2D
-@onready var loadlocation: SubViewport = get_node("SubViewportContainer/SubViewport")
-@export var sceneonstartup: String
+@onready var loadlocation: SubViewport = get_node("/root/game/SubViewportContainer/SubViewport")
 
+func _ready() -> void:
+	enable_edgetoedge()
 
 func load_level(level: String) -> void:
 	#if loadlocation.get_child(0):
@@ -12,16 +13,51 @@ func load_level(level: String) -> void:
 	var scene: Resource = ResourceLoader.load(level)
 	var newscene: Node2D = scene.instantiate()
 	loadlocation.add_child(newscene)
+	enable_edgetoedge()
 
-func _ready() -> void:
-	var scene: Resource = ResourceLoader.load(sceneonstartup)
-	var newscene: Node = scene.instantiate()
-	loadlocation.add_child(newscene)
-	
 func _process(_delta: float) -> void:
-	if (Vector2(get_node("SubViewportContainer/SubViewport").size) != get_viewport().get_visible_rect().size):
+	if (Vector2(get_node(^"/root/game/SubViewportContainer/SubViewport").size) != get_viewport().get_visible_rect().size):
 		print_debug("Window size changed! from ",
-			get_node("SubViewportContainer/SubViewport").size,
+			Vector2i(get_node(^"/root/game/SubViewportContainer/SubViewport").size),
 			" To ",
-			get_viewport().get_visible_rect())
-		get_node("SubViewportContainer/SubViewport").size = get_viewport().get_visible_rect().size
+			Vector2i(get_viewport().get_visible_rect().size))
+		get_node(^"/root/game/SubViewportContainer/SubViewport").size = get_viewport().get_visible_rect().size
+
+func enable_edgetoedge() -> void: # some really scary code that enables the edge to edge mode on android
+	if not OS.has_feature("android") == true:
+		print_warn("Running on " + OS.get_name() + OS.get_version_alias() + ", Android's Edge-to-Edge mode request ignored.")
+		return
+	elif OS.has_feature("debug") == true:
+		print_warn("Running a debug build, Edge-to-Edge request ignored.")
+		return
+	print("Running on ", OS.get_name(), OS.get_version_alias(), ", enabling Edge-to-Edge mode.")
+	var android_runtime: JNISingleton
+	var window: JavaObject
+	var activity: JavaObject
+	if Engine.has_singleton("AndroidRuntime"):
+		android_runtime = Engine.get_singleton("AndroidRuntime")
+		activity = android_runtime.getActivity()
+		window = activity.getWindow()
+	var layout_params: JavaClass = JavaClassWrapper.wrap("android.view.WindowManager$LayoutParams")
+
+	window.addFlags(layout_params.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+	var callable: Callable = func () -> void:
+		var view: JavaClass = JavaClassWrapper.wrap("android.view.View")
+
+		# Allow UI to render behind status bar
+		window.getDecorView().setSystemUiVisibility(view.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+		var insets_controller = window.getInsetsController()
+		window.setStatusBarColor(Color.TRANSPARENT.to_argb32())
+		window.setNavigationBarColor(Color.TRANSPARENT.to_argb32())
+
+		var wic: JavaClass = JavaClassWrapper.wrap("android.view.WindowInsetsController")
+
+		insets_controller.setSystemBarsAppearance(
+		0,
+		wic.APPEARANCE_LIGHT_STATUS_BARS
+		)
+
+	activity.runOnUiThread(android_runtime.createRunnableFromGodotCallable(callable))
+
+func print_warn(message: String) -> void:
+	print_rich("[color=yellow]", "WARN: ", message)
