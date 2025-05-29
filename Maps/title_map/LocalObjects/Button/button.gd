@@ -16,4 +16,4 @@ func _on_item_list_item_selected(index: int) -> void:
 
 func _on_pressed() -> void:
 	#get_tree().change_scene_to_packed(maps.get(mapselected))
-	get_tree().root.get_child(0).load_level(maps.get(mapselected))
+	main.load_level(maps.get(mapselected))

@@ -5,22 +5,30 @@ func _ready() -> void:
 	enable_edgetoedge()
 
 func load_level(level: String) -> void:
-	#if loadlocation.get_child(0):
-		#loadlocation.get_child(0).queue_free()
-	for loadchild: int in range(loadlocation.get_child_count()):
-		if loadlocation.get_child(loadchild).name != "Debug":
-			loadlocation.get_child(loadchild).queue_free()
-	var scene: Resource = ResourceLoader.load(level)
-	var newscene: Node2D = scene.instantiate()
-	loadlocation.add_child(newscene)
-	enable_edgetoedge()
+	#for loadchild: int in range(loadlocation.get_child_count()):
+		#if loadlocation.get_child(loadchild).name != "Debug":
+	#		loadlocation.get_child(loadchild).queue_free()
+	for child in loadlocation.get_children():
+		if child.name != "Debug":
+			child.queue_free()
+	var sceneresource: Resource = ResourceLoader.load(level)
+	if sceneresource:
+		var newscene: Node2D = sceneresource.instantiate()
+		if newscene:
+			loadlocation.add_child(newscene)
+		else:
+			print_warn("Failed to instantiate scene: " + level)
+	else:
+		print_warn("Failed to load scene resource: " + level)
+	
 
 func _process(_delta: float) -> void:
 	if (Vector2(get_node(^"/root/game/SubViewportContainer/SubViewport").size) != get_viewport().get_visible_rect().size):
-		print_debug("Window size changed! from ",
-			Vector2i(get_node(^"/root/game/SubViewportContainer/SubViewport").size),
-			" To ",
-			Vector2i(get_viewport().get_visible_rect().size))
+		if OS.has_feature("debug"):
+			print_debug("Window size changed! from ",
+				Vector2i(get_node(^"/root/game/SubViewportContainer/SubViewport").size),
+				" To ",
+				Vector2i(get_viewport().get_visible_rect().size))
 		get_node(^"/root/game/SubViewportContainer/SubViewport").size = get_viewport().get_visible_rect().size
 
 func enable_edgetoedge() -> void: # some really scary code that enables the edge to edge mode on android
@@ -28,7 +36,7 @@ func enable_edgetoedge() -> void: # some really scary code that enables the edge
 		print_warn("Running on " + OS.get_name() + OS.get_version_alias() + ", Android's Edge-to-Edge mode request ignored.")
 		return
 	elif OS.has_feature("debug") == true:
-		print_warn("Running a debug build, Edge-to-Edge request ignored.")
+		print_warn("Detected debug feature flag, Edge-to-Edge request ignored.")
 		return
 	print("Running on ", OS.get_name(), OS.get_version_alias(), ", enabling Edge-to-Edge mode.")
 	var android_runtime: JNISingleton

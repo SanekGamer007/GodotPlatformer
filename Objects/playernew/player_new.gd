@@ -76,6 +76,7 @@ func _physics_process(delta: float) -> void:
 	if velocity.y < 0:
 		if Input.is_action_pressed("ui_accept") and not is_on_floor() and not state == states.DASHING:
 			velocity.y -= mv_ADDITIONAL_JUMP_HEIGHT * delta
+	# Dashing
 	if state == states.DASHING and unl_Dashing:
 		var dashdirection: Vector2 = Input.get_vector("left", "right", "up", "down")
 		if abs(dashdirection.y) > 0.1 and Input.is_action_pressed("ui_accept"):
