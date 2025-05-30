@@ -8,7 +8,7 @@ func load_level(level: String) -> void:
 	#for loadchild: int in range(loadlocation.get_child_count()):
 	#	if loadlocation.get_child(loadchild).name != "Debug":
 	#		loadlocation.get_child(loadchild).queue_free()
-	for child: Object in loadlocation.get_children():
+	for child: Node in loadlocation.get_children():
 		if child.name != "Debug":
 			child.queue_free()
 	var sceneresource: Resource = ResourceLoader.load(level)
@@ -35,7 +35,7 @@ func enable_edgetoedge() -> void: # some really scary code that enables the edge
 	if not OS.has_feature("android") == true:
 		print_warn("Running on " + OS.get_name() + OS.get_version_alias() + ", Android's Edge-to-Edge mode request ignored.")
 		return
-	elif OS.has_feature("dsebug") == true:
+	elif OS.has_feature("debug") == true:
 		print_warn("Detected debug feature flag, Edge-to-Edge request ignored.")
 		return
 	print("Running on ", OS.get_name(), OS.get_version_alias(), ", enabling Edge-to-Edge mode.")
