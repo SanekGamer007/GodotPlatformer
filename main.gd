@@ -1,19 +1,19 @@
 extends Node2D
-@onready var loadlocation: SubViewport = get_node("/root/game/SubViewportContainer/SubViewport")
+@onready var loadlocation: Node = get_node("/root/game/SubViewportContainer/SubViewport")
 
 func _ready() -> void:
 	enable_edgetoedge()
 
 func load_level(level: String) -> void:
 	#for loadchild: int in range(loadlocation.get_child_count()):
-		#if loadlocation.get_child(loadchild).name != "Debug":
+	#	if loadlocation.get_child(loadchild).name != "Debug":
 	#		loadlocation.get_child(loadchild).queue_free()
-	for child in loadlocation.get_children():
+	for child: Object in loadlocation.get_children():
 		if child.name != "Debug":
 			child.queue_free()
 	var sceneresource: Resource = ResourceLoader.load(level)
 	if sceneresource:
-		var newscene: Node2D = sceneresource.instantiate()
+		var newscene: Node = sceneresource.instantiate()
 		if newscene:
 			loadlocation.add_child(newscene)
 		else:
@@ -35,7 +35,7 @@ func enable_edgetoedge() -> void: # some really scary code that enables the edge
 	if not OS.has_feature("android") == true:
 		print_warn("Running on " + OS.get_name() + OS.get_version_alias() + ", Android's Edge-to-Edge mode request ignored.")
 		return
-	elif OS.has_feature("debug") == true:
+	elif OS.has_feature("dsebug") == true:
 		print_warn("Detected debug feature flag, Edge-to-Edge request ignored.")
 		return
 	print("Running on ", OS.get_name(), OS.get_version_alias(), ", enabling Edge-to-Edge mode.")
@@ -54,16 +54,14 @@ func enable_edgetoedge() -> void: # some really scary code that enables the edge
 
 		# Allow UI to render behind status bar
 		window.getDecorView().setSystemUiVisibility(view.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+		@warning_ignore("untyped_declaration") # - FIXME - i have no idea what type this should be.
 		var insets_controller = window.getInsetsController()
 		window.setStatusBarColor(Color.TRANSPARENT.to_argb32())
 		window.setNavigationBarColor(Color.TRANSPARENT.to_argb32())
 
 		var wic: JavaClass = JavaClassWrapper.wrap("android.view.WindowInsetsController")
 
-		insets_controller.setSystemBarsAppearance(
-		0,
-		wic.APPEARANCE_LIGHT_STATUS_BARS
-		)
+		insets_controller.setSystemBarsAppearance(0, wic.APPEARANCE_LIGHT_STATUS_BARS)
 
 	activity.runOnUiThread(android_runtime.createRunnableFromGodotCallable(callable))
 

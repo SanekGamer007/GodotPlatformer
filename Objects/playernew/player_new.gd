@@ -21,7 +21,7 @@ enum states {
 @export var mv_MAX_SPEED: int = 130 ## Max Horizontal player speed.
 @export var mv_MAX_DASH_SPEED: int = 280 ## Maximum Dash speed, make sure that its bigger than the max speed.
 @export var mv_MAX_VERTICAL_SPEED: int = -240 ## Max Vertical player speed.
-@export var mv_MAX_NEGATIVE_VERTICAL_SPEED: int = 360 ## Max Negative Vertical player speed.
+@export var mv_MAX_NEGATIVE_VERTICAL_SPEED: int = 480 ## Max Negative Vertical player speed.
 @export var mv_INITIAL_JUMP_HEIGHT: int = 120 ## Lowest Jump force.
 @export var mv_ADDITIONAL_JUMP_HEIGHT: int = 500 ## Highest Jump force.
 @export var mv_ACCELERATION_STEPS: int = 12 ## How much steps does it require for the player to come to stop / to full speed.
@@ -63,7 +63,8 @@ func _physics_process(delta: float) -> void:
 			#if above max speed start decreasing velocity
 			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE) * -1)
 		else:
-			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE_AIR) * -1) #if above max speed start decreasing velocity (air version)
+			#if above max speed start decreasing velocity (air version)
+			velocity.x = velocity.x + ((sign(velocity.x) * mv_SPEED_REDUCTION_RATE_AIR) * -1)
 	else:
 		velocity.x -= mv_DECELERATION * sign(velocity.x)
 	

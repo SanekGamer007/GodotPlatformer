@@ -5,7 +5,7 @@
 
 [node name="game" type="Node2D"]
 script = ExtResource("1_e2o6t")
-sceneonstartup = "res://Maps/title_map/title_map.tscn"
+startupscene = "res://Maps/title_map/title_map.tscn"
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 offset_right = 40.0
